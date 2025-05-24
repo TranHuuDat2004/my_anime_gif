@@ -175,3 +175,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+// Hàm prepareAllGifs cần đảm bảo mỗi gif trong allGifsForDisplay có thuộc tính 'id'
+function prepareAllGifs() {
+    allGifsForDisplay = [];
+    for (const seriesKey in animeGifData) {
+        const series = animeGifData[seriesKey];
+        series.gifs.forEach(gif => {
+            // Đảm bảo mỗi gif từ data.js đã có trường 'id' duy nhất
+            if (!gif.id) {
+                console.error("GIF missing unique ID:", gif, "in series:", seriesKey);
+                // Có thể tạo ID tạm thời ở đây nếu cần, nhưng tốt nhất là định nghĩa trong data.js
+            }
+
+            let fullUrl;
+            if (series.isExternal) {
+                fullUrl = gif.url;
+            } else {
+                fullUrl = series.folder + gif.fileName;
+            }
+            allGifsForDisplay.push({
+                ...gif, // Bao gồm cả 'id' từ data.js
+                fullUrl: fullUrl,
+                seriesName: series.displayName,
+                seriesKey: seriesKey
+            });
+        });
+    }
+}
+
+
+function displayGifs(gifsToDisplay) {
+    gifGallery.innerHTML = '';
+
+    if (gifsToDisplay.length === 0) {
+        gifGallery.innerHTML = '<p class="placeholder-text">Không tìm thấy GIF nào phù hợp.</p>';
+        return;
+    }
+
+    gifsToDisplay.forEach(gif => {
+        const gifItem = document.createElement('div');
+        gifItem.classList.add('gif-item');
+        // gifItem.dataset.gifId = gif.id; // Lưu id vào data attribute (tùy chọn, không cần thiết nếu đã có trong object `gif`)
+
+        const img = document.createElement('img');
+        img.src = gif.fullUrl;
+        img.alt = gif.title;
+        img.loading = 'lazy';
+
+        gifItem.appendChild(img);
+        gifGallery.appendChild(gifItem);
+
+        // THÊM EVENT LISTENER ĐỂ CHUYỂN TRANG
+        gifItem.addEventListener('click', () => {
+            if (gif.id) {
+                window.location.href = `detail.html?id=${gif.id}`;
+            } else {
+                console.error("Cannot navigate: GIF ID is missing for", gif);
+                alert("Lỗi: Không tìm thấy ID của GIF này.");
+            }
+        });
+    });
+}

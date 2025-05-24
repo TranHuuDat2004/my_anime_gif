@@ -194,6 +194,7 @@ header h1 {
 }
 .gif-item:hover {
     transform: scale(1.03);
+    cursor: pointer;
 }
 .gif-item img {
     width: 100%;
