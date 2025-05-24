@@ -84,9 +84,8 @@ header h1 {
 
 #gif-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
-    /* Giới hạn chiều rộng tối đa mỗi item */
-    gap: 15px;
+grid-template-columns: repeat(auto-fill, minmax(300px, 400px)); /* Ví dụ: bắt đầu từ đây */
+    gap: 15px; /* Hoặc 20px nếu ảnh lớn hơn */
 }
 
 .gif-item {
@@ -106,10 +105,8 @@ header h1 {
 
 .gif-item img {
     width: 100%;
-    /* height: auto;  aspect-ratio sẽ xử lý chiều cao */
-    aspect-ratio: 4 / 3;
-    /* Giữ tỷ lệ khung hình, bạn có thể đổi thành 1 / 1 cho ảnh vuông, hoặc tỷ lệ khác */
-    object-fit: cover;
+    aspect-ratio: 1/1;
+    object-fit: cover; /* Hoặc contain nếu bạn muốn thấy toàn bộ ảnh dù có thể có khoảng trống */
     display: block;
     background-color: #2a2a2a;
 }
@@ -125,6 +122,36 @@ header h1 {
     margin: 5px 0;
 }
 
+
+#view-options button {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    margin: 0 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#view-options button:hover,
+#view-options button.active {
+    background-color: #00ccff;
+    color: #121212;
+    border-color: #00ccff;
+}
+
+/* Các class cho kích thước lưới khác nhau */
+#gif-gallery.view-small {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 250px)); /* Kích thước cho view nhỏ */
+}
+#gif-gallery.view-medium {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 380px)); /* Kích thước cho view vừa (mặc định của bạn có thể khác) */
+}
+#gif-gallery.view-large {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 500px)); /* Kích thước cho view lớn */
+}
 
 /* Thông báo khi không có GIF hoặc đang tải */
 .placeholder-text {
@@ -142,4 +169,14 @@ footer {
     margin-top: 40px;
     color: #777;
     border-top: 1px solid #333;
+}
+
+@media (max-width: 600px) {
+    #gif-gallery {
+        gap: 10px;
+    }
+    /* Có thể điều chỉnh minmax cho class view mặc định nếu cần */
+    #gif-gallery.view-medium { /* Hoặc class mặc định của bạn */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ảnh nhỏ hơn trên mobile */
+    }
 }
