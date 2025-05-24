@@ -1,0 +1,175 @@
+// --- DỮ LIỆU GIF ---
+        // QUAN TRỌNG: Bạn cần tự cập nhật danh sách `fileNames` trong mỗi series
+        // khi bạn thêm hoặc xóa file GIF trong các thư mục tương ứng.
+        // JavaScript không thể tự động "đọc" thư mục trên GitHub Pages.
+        const animeGifData = {
+            "OtonariNoTenshi": { // Sử dụng key không dấu, không cách để dễ tham chiếu
+                displayName: "Tenshi-sama (Mahiru)",
+                folder: "gifs/otonari_no_tenshi/", // Đường dẫn tới thư mục chứa GIF của series này
+                // Liệt kê tên file GIF trong thư mục trên
+                gifs: [
+                    { fileName: "mahiru_smile.gif", title: "Mahiru's Gentle Smile", tags: ["mahiru", "smile", "cute", "wholesome"] },
+                    { fileName: "mahiru_cooking.gif", title: "Mahiru Cooking", tags: ["mahiru", "cooking", "housewife"] },
+                    { fileName: "mahiru_blush_study.gif", title: "Mahiru Blushing While Studying", tags: ["mahiru", "blush", "study", "embarrassed"] }
+                    // Ví dụ: { fileName: "tensei_slime_rimuru_01.gif", title: "Rimuru Happy", tags: ["rimuru", "happy", "slime"] }
+                ]
+            },
+            "WitchWatch": {
+                displayName: "Witch Watch",
+                folder: "gifs/witch_watch/",
+                gifs: [
+                    { fileName: "nico_magic_staff.gif", title: "Nico with Magic Staff", tags: ["nico", "magic", "witch"] },
+                    { fileName: "moi_ogre_strength.gif", title: "Moi's Ogre Strength", tags: ["moi", "ogre", "strength", "funny"] }
+                ]
+            },
+            "SpyXFamily": {
+                displayName: "Spy x Family (Anya)",
+                folder: "gifs/spy_x_family/",
+                gifs: [
+                    { fileName: "anya_heh.gif", title: "Anya's Heh Face", tags: ["anya", "smirk", "heh", "cute", "funny"] },
+                    { fileName: "anya_waku_waku.gif", title: "Anya Waku Waku", tags: ["anya", "excited", "waku waku"] }
+                ]
+            },
+            "PlaceholderGiphy": { // Ví dụ dùng link ngoài nếu bạn chưa có GIF local
+                displayName: "General (Giphy Links)",
+                folder: "", // Không có folder local cho các link này
+                isExternal: true, // Đánh dấu là link ngoài
+                gifs: [
+                    { url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm9lY3k0dGZoc2lmbXJkZzNxOHQ0Z3d5OHlvbnY0aG5tMXcwdXJ0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MO94y7Y2c4bKg/giphy.gif", title: "Smiling Face Placeholder", tags: ["anime", "cute", "smile"] },
+                    { url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTZtbG00OHoyZ21md21tcjJtNzZocTlyeTN0ZDJnZmNtbXRwazU5byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MINUTEUVAdqgJ92hMT6N/giphy.gif", title: "Cool Guy Placeholder", tags: ["anime", "cool", "action"] }
+                ]
+            }
+            // Thêm các series anime khác của bạn vào đây
+        };
+
+        // --- DOM ELEMENTS ---
+        const gifGallery = document.getElementById('gif-gallery');
+        const searchBar = document.getElementById('search-bar');
+        const seriesNavigation = document.getElementById('series-navigation');
+        const loadingMessage = document.getElementById('loading-message');
+
+        let currentFilter = 'all'; // 'all' hoặc key của series
+        let allGifsForDisplay = []; // Mảng chứa tất cả GIF đã được xử lý (có fullUrl)
+
+        // --- FUNCTIONS ---
+
+        // Tạo và hiển thị các nút lọc series
+        function populateSeriesNavigation() {
+            const allButton = document.createElement('button');
+            allButton.textContent = 'Tất Cả Series';
+            allButton.dataset.seriesKey = 'all';
+            allButton.classList.add('active'); // Nút 'All' active mặc định
+            allButton.addEventListener('click', () => filterBySeries('all'));
+            seriesNavigation.appendChild(allButton);
+
+            for (const seriesKey in animeGifData) {
+                const button = document.createElement('button');
+                button.textContent = animeGifData[seriesKey].displayName;
+                button.dataset.seriesKey = seriesKey;
+                button.addEventListener('click', () => filterBySeries(seriesKey));
+                seriesNavigation.appendChild(button);
+            }
+        }
+
+        // Lọc GIF theo series được chọn
+        function filterBySeries(seriesKey) {
+            currentFilter = seriesKey;
+            document.querySelectorAll('#series-navigation button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.seriesKey === seriesKey);
+            });
+            // Trigger lại việc hiển thị và tìm kiếm (nếu có text trong search bar)
+            performSearchAndDisplay();
+        }
+
+        // Chuẩn bị dữ liệu GIF để hiển thị (thêm fullUrl, seriesName)
+        function prepareAllGifs() {
+            allGifsForDisplay = [];
+            for (const seriesKey in animeGifData) {
+                const series = animeGifData[seriesKey];
+                series.gifs.forEach(gif => {
+                    let fullUrl;
+                    if (series.isExternal) {
+                        fullUrl = gif.url; // Sử dụng URL trực tiếp nếu là link ngoài
+                    } else {
+                        fullUrl = series.folder + gif.fileName; // Tạo URL từ folder và fileName
+                    }
+                    allGifsForDisplay.push({
+                        ...gif,
+                        fullUrl: fullUrl,
+                        seriesName: series.displayName,
+                        seriesKey: seriesKey // Lưu key để lọc
+                    });
+                });
+            }
+        }
+
+        // Hiển thị GIF lên gallery
+        function displayGifs(gifsToDisplay) {
+            gifGallery.innerHTML = ''; // Xóa nội dung cũ
+
+            if (gifsToDisplay.length === 0) {
+                gifGallery.innerHTML = '<p class="placeholder-text">Không tìm thấy GIF nào phù hợp.</p>';
+                return;
+            }
+
+            gifsToDisplay.forEach(gif => {
+                const gifItem = document.createElement('div');
+                gifItem.classList.add('gif-item');
+
+                const img = document.createElement('img');
+                img.src = gif.fullUrl;
+                img.alt = gif.title;
+                img.loading = 'lazy';
+
+                const gifInfoDiv = document.createElement('div');
+                gifInfoDiv.classList.add('gif-info');
+
+                const titleDiv = document.createElement('div');
+                titleDiv.classList.add('gif-title');
+                titleDiv.textContent = gif.title;
+
+                const seriesNameDiv = document.createElement('div');
+                seriesNameDiv.classList.add('gif-series-name');
+                seriesNameDiv.textContent = gif.seriesName; // Hiển thị tên series
+
+                gifInfoDiv.appendChild(titleDiv);
+                gifInfoDiv.appendChild(seriesNameDiv);
+
+                gifItem.appendChild(img);
+                gifItem.appendChild(gifInfoDiv);
+                gifGallery.appendChild(gifItem);
+            });
+        }
+
+        // Thực hiện tìm kiếm và hiển thị kết quả
+        function performSearchAndDisplay() {
+            const searchTerm = searchBar.value.toLowerCase().trim();
+            let gifsToFilter = [];
+
+            if (currentFilter === 'all') {
+                gifsToFilter = allGifsForDisplay;
+            } else if (animeGifData[currentFilter]) {
+                // Lấy lại các GIF của series hiện tại từ allGifsForDisplay
+                gifsToFilter = allGifsForDisplay.filter(gif => gif.seriesKey === currentFilter);
+            }
+
+            const filteredGifs = gifsToFilter.filter(gif =>
+                gif.title.toLowerCase().includes(searchTerm) ||
+                (gif.tags && gif.tags.some(tag => tag.toLowerCase().includes(searchTerm))) ||
+                gif.seriesName.toLowerCase().includes(searchTerm) // Tìm cả trong tên series
+            );
+            displayGifs(filteredGifs);
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (loadingMessage) {
+                loadingMessage.remove();
+            }
+            prepareAllGifs(); // Chuẩn bị dữ liệu một lần
+            populateSeriesNavigation(); // Tạo các nút lọc series
+            performSearchAndDisplay(); // Hiển thị tất cả GIF (hoặc theo filter mặc định) ban đầu
+        });
+
+        // Xử lý sự kiện tìm kiếm
+        searchBar.addEventListener('input', performSearchAndDisplay);
