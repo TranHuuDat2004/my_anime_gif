@@ -3,17 +3,15 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     background-color: #121212;
-    /* Nền tối giống Giphy */
     color: #e0e0e0;
 }
 
 header {
     background-color: #1f1f1f;
-    padding: 15px 0;
-    text-align: center;
+    padding: 15px 0; /* Giữ padding trên dưới */
+    text-align: center; /* Giữ text-align cho h1 nếu không có flex */
     border-bottom: 1px solid #333;
     position: sticky;
-    /* Giữ header khi cuộn */
     top: 0;
     z-index: 1000;
 }
@@ -22,22 +20,56 @@ header h1 {
     margin: 0;
     font-size: 2em;
     color: #00ccff;
-    /* Màu nhấn */
 }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 15px;
+/* Container giới hạn chiều rộng cho nội dung cần căn giữa */
+.inner-container {
+    max-width: 1200px; /* Hoặc giá trị bạn muốn */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
 }
 
-/* Thanh điều hướng Series */
+/* Section cho nội dung chính, không giới hạn chiều rộng */
+.full-width-content {
+    /* Không có max-width */
+    padding-top: 20px; /* Khoảng cách với header */
+    padding-bottom: 20px; /* Khoảng cách với footer */
+}
+
+.controls-container {
+    margin-bottom: 25px; /* Khoảng cách giữa controls và gallery */
+}
+
+
+/* Thanh điều hướng Series (nằm trong .controls-container) */
 #series-navigation {
-    margin-bottom: 25px;
     text-align: center;
     padding: 10px 0;
     background-color: #1a1a1a;
     border-radius: 5px;
+    margin-bottom: 15px; /* Khoảng cách với view-options */
+}
+
+#view-options button {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    margin: 0 5px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+#view-options button:hover,
+#view-options button.active {
+    background-color: #00ccff;
+    color: #121212;
+    border-color: #00ccff;
 }
 
 #series-navigation button {
@@ -59,35 +91,98 @@ header h1 {
     border-color: #00ccff;
 }
 
-
-/* Thanh tìm kiếm */
+/* Thanh tìm kiếm (nằm trong .controls-container) */
 #search-bar {
-    width: 100%;
+    width: 100%; /* Chiếm toàn bộ chiều rộng của .controls-container */
     padding: 12px 15px;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; /* Đã được .controls-container xử lý */
     font-size: 1.1em;
     border: 1px solid #333;
     background-color: #222;
     color: #e0e0e0;
     border-radius: 5px;
     box-sizing: border-box;
-    /* Để padding không làm tăng kích thước tổng */
 }
-
 #search-bar:focus {
     outline: none;
     border-color: #00ccff;
 }
 
-/* Lưới hiển thị GIF */
-
-
+/* Lưới hiển thị GIF - Sẽ full width với padding hai bên */
 #gif-gallery {
     display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 400px)); /* Ví dụ: bắt đầu từ đây */
-    gap: 15px; /* Hoặc 20px nếu ảnh lớn hơn */
+    padding: 0 10px; /* Padding trái phải cho lưới ảnh */
+    box-sizing: border-box;
 }
 
+/* ---- KÍCH THƯỚC LƯỚI MẶC ĐỊNH (MOBILE) ---- */
+/* Ảnh Nhỏ trên Mobile (ví dụ 3 cột) */
+#gif-gallery.view-small {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+/* Ảnh Vừa trên Mobile (ví dụ 2 cột) */
+#gif-gallery.view-medium { /* Class này có thể là mặc định của bạn */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+/* Ảnh Lớn trên Mobile (ví dụ 1 cột) */
+#gif-gallery.view-large {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 12px;
+}
+
+
+/* ---- TABLET (ví dụ: từ 600px trở lên) ---- */
+@media (min-width: 600px) {
+    #gif-gallery.view-small {
+        grid-template-columns: repeat(5, 1fr); /* Ảnh Nhỏ: 5 cột */
+        gap: 10px;
+    }
+    #gif-gallery.view-medium {
+        grid-template-columns: repeat(3, 1fr); /* Ảnh Vừa: 3 cột */
+        gap: 12px;
+    }
+    #gif-gallery.view-large {
+        grid-template-columns: repeat(2, 1fr); /* Ảnh Lớn: 2 cột */
+        gap: 15px;
+    }
+}
+
+/* ---- DESKTOP NHỎ / TABLET LỚN (ví dụ: từ 992px trở lên) ---- */
+@media (min-width: 992px) {
+    #gif-gallery.view-small {
+        grid-template-columns: repeat(7, 1fr); /* Ảnh Nhỏ: 7 cột */
+        gap: 10px;
+    }
+    #gif-gallery.view-medium {
+        grid-template-columns: repeat(4, 1fr); /* Ảnh Vừa: 4 cột */
+        gap: 12px;
+    }
+    #gif-gallery.view-large {
+        grid-template-columns: repeat(3, 1fr); /* Ảnh Lớn: 3 cột */
+        gap: 15px;
+    }
+}
+
+/* ---- DESKTOP LỚN (ví dụ: từ 1200px trở lên, khớp với inner-container) ---- */
+@media (min-width: 1200px) {
+    #gif-gallery.view-small {
+        grid-template-columns: repeat(10, 1fr); /* Ảnh Nhỏ: 10 cột như bạn muốn */
+        gap: 10px;
+    }
+    #gif-gallery.view-medium {
+        grid-template-columns: repeat(5, 1fr);  /* Ảnh Vừa: 5 cột như bạn muốn */
+        gap: 12px;
+    }
+    #gif-gallery.view-large {
+        grid-template-columns: repeat(3, 1fr);  /* Ảnh Lớn: 3 cột như bạn muốn */
+        gap: 15px;
+    }
+}
+
+
+/* Item GIF và ảnh bên trong (giữ nguyên) */
 .gif-item {
     background-color: #1f1f1f;
     border: 1px solid #333;
@@ -95,68 +190,22 @@ grid-template-columns: repeat(auto-fill, minmax(300px, 400px)); /* Ví dụ: b�
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease-in-out;
-    /* display: flex; và flex-direction: column; không còn quá cần thiết nếu không có text bên dưới, 
-       nhưng giữ lại cũng không sao. Ảnh sẽ tự chiếm không gian. */
+    aspect-ratio: 1/1; /* Giữ item vuông nếu ảnh vuông */
 }
-
 .gif-item:hover {
     transform: scale(1.03);
 }
-
 .gif-item img {
     width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover; /* Hoặc contain nếu bạn muốn thấy toàn bộ ảnh dù có thể có khoảng trống */
+    height: 100%;
+    object-fit: cover;
     display: block;
     background-color: #2a2a2a;
-}
-
-/* Ẩn hoàn toàn phần thông tin text bên dưới GIF */
-.gif-item .gif-info {
-    display: none;
-}
-
-.gif-title {
-    font-size: 1.1em;
-    font-weight: bold;
-    margin: 5px 0;
-}
-
-
-#view-options button {
-    background-color: #333;
-    color: #e0e0e0;
-    border: 1px solid #444;
-    padding: 6px 12px;
-    margin: 0 5px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.85em;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-#view-options button:hover,
-#view-options button.active {
-    background-color: #00ccff;
-    color: #121212;
-    border-color: #00ccff;
-}
-
-/* Các class cho kích thước lưới khác nhau */
-#gif-gallery.view-small {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 250px)); /* Kích thước cho view nhỏ */
-}
-#gif-gallery.view-medium {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 380px)); /* Kích thước cho view vừa (mặc định của bạn có thể khác) */
-}
-#gif-gallery.view-large {
-    grid-template-columns: repeat(auto-fill, minmax(400px, 500px)); /* Kích thước cho view lớn */
 }
 
 /* Thông báo khi không có GIF hoặc đang tải */
 .placeholder-text {
     grid-column: 1 / -1;
-    /* Cho text này chiếm toàn bộ chiều rộng grid */
     text-align: center;
     color: #777;
     margin-top: 50px;
@@ -165,11 +214,13 @@ grid-template-columns: repeat(auto-fill, minmax(300px, 400px)); /* Ví dụ: b�
 
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 20px 0; /* Giữ padding trên dưới */
     margin-top: 40px;
     color: #777;
     border-top: 1px solid #333;
 }
+
+
 
 @media (max-width: 600px) {
     #gif-gallery {

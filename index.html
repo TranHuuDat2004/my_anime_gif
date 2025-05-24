@@ -12,28 +12,34 @@
 <body>
 
     <header>
-        <h1>GIF Anime Collection</h1>
+        <div class="inner-container"> <!-- Bọc nội dung header -->
+            <h1>GIF Anime Collection</h1>
+        </div>
     </header>
 
-    <div class="container">
-        <div id="view-options" style="margin-bottom: 15px; text-align: center;">
-            <button data-size="small">Ảnh Nhỏ</button>
-            <button data-size="medium" class="active">Ảnh Vừa</button> <!-- Mặc định -->
-            <button data-size="large">Ảnh Lớn</button>
-        </div>
-        <div id="series-navigation">
-            <!-- Các nút lọc series sẽ được JavaScript chèn vào đây -->
+    <div class="full-width-content"> <!-- Section này sẽ không bị giới hạn max-width -->
+        <div class="controls-container inner-container"> <!-- Container cho các điều khiển -->
+            <div id="series-navigation">
+                <!-- Các nút lọc series sẽ được JavaScript chèn vào đây -->
+            </div>
+            <div id="view-options" style="margin-bottom: 15px; text-align: center;">
+                <button data-size="small">Ảnh Nhỏ</button>
+                <button data-size="medium" class="active">Ảnh Vừa</button>
+                <button data-size="large">Ảnh Lớn</button>
+            </div>
+            <input type="text" id="search-bar" placeholder="Tìm kiếm GIF theo tên hoặc tag...">
         </div>
 
-        <input type="text" id="search-bar" placeholder="Tìm kiếm GIF theo tên hoặc tag...">
-
-        <div id="gif-gallery">
+        <div id="gif-gallery" class="view-medium"> <!-- Lưới GIF, class view-medium mặc định -->
+            <!-- Các GIF sẽ được JavaScript chèn vào đây -->
             <p class="placeholder-text" id="loading-message">Đang tải danh sách GIF...</p>
         </div>
     </div>
 
     <footer>
-        <p>© 2023 Tran Huu Dat - Anime GIF Collection</p>
+        <div class="inner-container"> <!-- Bọc nội dung footer -->
+            <p>© 2024 Tran Huu Dat - Anime GIF Collection</p>
+        </div>
     </footer>
 
     <script src="data.js"></script> <!-- TẢI FILE DỮ LIỆU TRƯỚC -->
