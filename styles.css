@@ -1,143 +1,145 @@
 /* Reset cơ bản & Kiểu dáng chung */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            background-color: #121212;
-            /* Nền tối giống Giphy */
-            color: #e0e0e0;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #121212;
+    /* Nền tối giống Giphy */
+    color: #e0e0e0;
+}
 
-        header {
-            background-color: #1f1f1f;
-            padding: 15px 0;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            position: sticky;
-            /* Giữ header khi cuộn */
-            top: 0;
-            z-index: 1000;
-        }
+header {
+    background-color: #1f1f1f;
+    padding: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    /* Giữ header khi cuộn */
+    top: 0;
+    z-index: 1000;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 2em;
-            color: #00ccff;
-            /* Màu nhấn */
-        }
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #00ccff;
+    /* Màu nhấn */
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
 
-        /* Thanh điều hướng Series */
-        #series-navigation {
-            margin-bottom: 25px;
-            text-align: center;
-            padding: 10px 0;
-            background-color: #1a1a1a;
-            border-radius: 5px;
-        }
+/* Thanh điều hướng Series */
+#series-navigation {
+    margin-bottom: 25px;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+}
 
-        #series-navigation button {
-            background-color: #333;
-            color: #e0e0e0;
-            border: 1px solid #444;
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.2s, color 0.2s;
-        }
+#series-navigation button {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s, color 0.2s;
+}
 
-        #series-navigation button:hover,
-        #series-navigation button.active {
-            background-color: #00ccff;
-            color: #121212;
-            border-color: #00ccff;
-        }
+#series-navigation button:hover,
+#series-navigation button.active {
+    background-color: #00ccff;
+    color: #121212;
+    border-color: #00ccff;
+}
 
 
-        /* Thanh tìm kiếm */
-        #search-bar {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 25px;
-            font-size: 1.1em;
-            border: 1px solid #333;
-            background-color: #222;
-            color: #e0e0e0;
-            border-radius: 5px;
-            box-sizing: border-box;
-            /* Để padding không làm tăng kích thước tổng */
-        }
+/* Thanh tìm kiếm */
+#search-bar {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 25px;
+    font-size: 1.1em;
+    border: 1px solid #333;
+    background-color: #222;
+    color: #e0e0e0;
+    border-radius: 5px;
+    box-sizing: border-box;
+    /* Để padding không làm tăng kích thước tổng */
+}
 
-        #search-bar:focus {
-            outline: none;
-            border-color: #00ccff;
-        }
+#search-bar:focus {
+    outline: none;
+    border-color: #00ccff;
+}
 
-        /* Lưới hiển thị GIF */
-        #gif-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            /* Khoảng cách giữa các item */
-        }
+/* Lưới hiển thị GIF */
 
-        .gif-item {
-            background-color: #1f1f1f;
-            border: 1px solid #333;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease-in-out;
-            /* display: flex; và flex-direction: column; không còn quá cần thiết nếu không có text bên dưới, 
+
+#gif-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 280px));
+    /* Giới hạn chiều rộng tối đa mỗi item */
+    gap: 15px;
+}
+
+.gif-item {
+    background-color: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+    /* display: flex; và flex-direction: column; không còn quá cần thiết nếu không có text bên dưới, 
        nhưng giữ lại cũng không sao. Ảnh sẽ tự chiếm không gian. */
-        }
+}
 
-        .gif-item:hover {
-            transform: scale(1.03);
-        }
+.gif-item:hover {
+    transform: scale(1.03);
+}
 
-        .gif-item img {
-            width: 100%;
-            /* height: auto;  aspect-ratio sẽ xử lý chiều cao */
-            aspect-ratio: 4 / 3;
-            /* Giữ tỷ lệ khung hình, bạn có thể đổi thành 1 / 1 cho ảnh vuông, hoặc tỷ lệ khác */
-            object-fit: cover;
-            display: block;
-            background-color: #2a2a2a;
-        }
+.gif-item img {
+    width: 100%;
+    /* height: auto;  aspect-ratio sẽ xử lý chiều cao */
+    aspect-ratio: 4 / 3;
+    /* Giữ tỷ lệ khung hình, bạn có thể đổi thành 1 / 1 cho ảnh vuông, hoặc tỷ lệ khác */
+    object-fit: cover;
+    display: block;
+    background-color: #2a2a2a;
+}
 
-        /* Ẩn hoàn toàn phần thông tin text bên dưới GIF */
-        .gif-item .gif-info {
-            display: none;
-        }
+/* Ẩn hoàn toàn phần thông tin text bên dưới GIF */
+.gif-item .gif-info {
+    display: none;
+}
 
-        .gif-title {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin: 5px 0;
-        }
+.gif-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 5px 0;
+}
 
 
-        /* Thông báo khi không có GIF hoặc đang tải */
-        .placeholder-text {
-            grid-column: 1 / -1;
-            /* Cho text này chiếm toàn bộ chiều rộng grid */
-            text-align: center;
-            color: #777;
-            margin-top: 50px;
-            font-size: 1.2em;
-        }
+/* Thông báo khi không có GIF hoặc đang tải */
+.placeholder-text {
+    grid-column: 1 / -1;
+    /* Cho text này chiếm toàn bộ chiều rộng grid */
+    text-align: center;
+    color: #777;
+    margin-top: 50px;
+    font-size: 1.2em;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            color: #777;
-            border-top: 1px solid #333;
-        }
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: #777;
+    border-top: 1px solid #333;
+}

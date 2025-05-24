@@ -2,45 +2,6 @@
         // QUAN TRỌNG: Bạn cần tự cập nhật danh sách `fileNames` trong mỗi series
         // khi bạn thêm hoặc xóa file GIF trong các thư mục tương ứng.
         // JavaScript không thể tự động "đọc" thư mục trên GitHub Pages.
-        const animeGifData = {
-            "OtonariNoTenshi": { // Sử dụng key không dấu, không cách để dễ tham chiếu
-                displayName: "Tenshi-sama (Mahiru)",
-                folder: "gifs/otonari_no_tenshi/", // Đường dẫn tới thư mục chứa GIF của series này
-                // Liệt kê tên file GIF trong thư mục trên
-                gifs: [
-                    { fileName: "mahiru_smile.gif", title: "Mahiru's Gentle Smile", tags: ["mahiru", "smile", "cute", "wholesome"] },
-                    { fileName: "mahiru_cooking.gif", title: "Mahiru Cooking", tags: ["mahiru", "cooking", "housewife"] },
-                    { fileName: "mahiru_blush_study.gif", title: "Mahiru Blushing While Studying", tags: ["mahiru", "blush", "study", "embarrassed"] }
-                    // Ví dụ: { fileName: "tensei_slime_rimuru_01.gif", title: "Rimuru Happy", tags: ["rimuru", "happy", "slime"] }
-                ]
-            },
-            "WitchWatch": {
-                displayName: "Witch Watch",
-                folder: "gifs/witch_watch/",
-                gifs: [
-                    { fileName: "nico_magic_staff.gif", title: "Nico with Magic Staff", tags: ["nico", "magic", "witch"] },
-                    { fileName: "moi_ogre_strength.gif", title: "Moi's Ogre Strength", tags: ["moi", "ogre", "strength", "funny"] }
-                ]
-            },
-            "SpyXFamily": {
-                displayName: "Spy x Family (Anya)",
-                folder: "gifs/spy_x_family/",
-                gifs: [
-                    { fileName: "anya_heh.gif", title: "Anya's Heh Face", tags: ["anya", "smirk", "heh", "cute", "funny"] },
-                    { fileName: "anya_waku_waku.gif", title: "Anya Waku Waku", tags: ["anya", "excited", "waku waku"] }
-                ]
-            },
-            "PlaceholderGiphy": { // Ví dụ dùng link ngoài nếu bạn chưa có GIF local
-                displayName: "General (Giphy Links)",
-                folder: "", // Không có folder local cho các link này
-                isExternal: true, // Đánh dấu là link ngoài
-                gifs: [
-                    { url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm9lY3k0dGZoc2lmbXJkZzNxOHQ0Z3d5OHlvbnY0aG5tMXcwdXJ0ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MO94y7Y2c4bKg/giphy.gif", title: "Smiling Face Placeholder", tags: ["anime", "cute", "smile"] },
-                    { url: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTZtbG00OHoyZ21md21tcjJtNzZocTlyeTN0ZDJnZmNtbXRwazU5byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MINUTEUVAdqgJ92hMT6N/giphy.gif", title: "Cool Guy Placeholder", tags: ["anime", "cool", "action"] }
-                ]
-            }
-            // Thêm các series anime khác của bạn vào đây
-        };
 
         // --- DOM ELEMENTS ---
         const gifGallery = document.getElementById('gif-gallery');
