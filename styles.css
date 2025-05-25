@@ -168,7 +168,7 @@ header h1 {
 /* ---- DESKTOP LỚN (ví dụ: từ 1200px trở lên, khớp với inner-container) ---- */
 @media (min-width: 1200px) {
     #gif-gallery.view-small {
-        grid-template-columns: repeat(10, 1fr); /* Ảnh Nhỏ: 10 cột như bạn muốn */
+        grid-template-columns: repeat(8, 1fr); /* Ảnh Nhỏ: 10 cột như bạn muốn */
         gap: 10px;
     }
     #gif-gallery.view-medium {
